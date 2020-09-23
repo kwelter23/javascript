@@ -35,10 +35,16 @@ function createTable (filteredData) {
     }
 
     //Country cell
-    var enteredCountry = d3.select("#country").property("value");
-    if (enteredCountry != ""){
+    var enteredCountry = d3.select("#inputGroupSelect01").property("value");
+   if (enteredCountry != "Country..."){
         var filteredData = filteredData.filter(UFOsighting => UFOsighting.country === enteredCountry);
-    }
+   }
+
+    //Shape cell
+    var enteredShape = d3.select("#inputGroupSelect02").property("value");
+   if (enteredShape != "Shape..."){
+        var filteredData = filteredData.filter(UFOsighting => UFOsighting.shape === enteredShape);
+   }
 
     filteredData.forEach(function(UFOsighting) {
        // console.log(UFOsighting);
