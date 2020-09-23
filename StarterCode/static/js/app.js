@@ -1,82 +1,60 @@
 console.log("this works")
 
-// get reference from table body
-var tbody = d3.select("tbody");
-
-//Loop through data and Use d3 to update each cell's text with ufoSightings Data
-data.forEach(function(ufoSightings) {
-       console.log(ufoSightings);
-       var row = tbody.append("tr");
-       Object.entries(ufoSightings).forEach(function([key, value]) {
-         console.log(key, value);
-     // Append a cell to the row for each value in the weather report object
-
-         var cell = row.append("td");
-         cell.text(value);
-
-
-   });
-});
-       
-// Getting a reference to the button on the page with the id property set to `click-me`
+// Getting a reference to the button on the page
 var button = d3.select("#filter-btn");
 
-// Getting a reference to the input element on the page
-var filterDate = d3.select("#datetime");
-    console.log(filterDate);
+//Show all data in table when page loads 
+createTable(data);
 
-// Select the Table to Filter
-var filteredTable = d3.select(".tbody");
+//Create function to display data
+function createTable (filteredData) {
+    //get data
+    filteredData = data;
 
-// This function is triggered when the button is clicked
-function handleClick() {
-    console.log("A button was clicked!");
+    // get reference from table body
+    var tbody = d3.select("tbody"); 
+    //clear table body if not fisrt time through
+    tbody.html("");
+    
+    //Date cell
+    var enteredDate = d3.select("#datetime").property("value");
+    if (enteredDate != ""){
+        var filteredData = filteredData.filter(UFOsighting => UFOsighting.datetime === enteredDate);
+    }
 
-// We can use d3 to see the object that dispatched the event
-  console.log(d3.event.target);
+    //City cell
+    var enteredCity = d3.select("#city").property("value");
+    if (enteredCity != ""){
+        var filteredData = filteredData.filter(UFOsighting => UFOsighting.city === enteredCity);
+    }
+
+    //State cell
+    var enteredState = d3.select("#state").property("value");
+    if (enteredState != ""){
+        var filteredData = filteredData.filter(UFOsighting => UFOsighting.state === enteredState);
+    }
+
+    //Country cell
+    var enteredCountry = d3.select("#country").property("value");
+    if (enteredCountry != ""){
+        var filteredData = filteredData.filter(UFOsighting => UFOsighting.country === enteredCountry);
+    }
+
+    filteredData.forEach(function(UFOsighting) {
+       // console.log(UFOsighting);
+        var row = tbody.append("tr");
+        Object.entries(UFOsighting).forEach(function([key, value]) {
+           //console.log(key, value);
+            // Append a cell to the row for each value in the object
+        var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+
 }
 
-// We can use the `on` function in d3 to attach an event to the handler function
-button.on("click", handleClick);
-
-// You can also define the click handler inline
+// Create New Filtered Table when button is clicked
 button.on("click", function() {
-  console.log("Hi, a button was clicked!");
-  //enter code to filter table
-  console.log(d3.event.target);
+    createTable(data)
+    console.log("this is filtered data");
 });
-
-
-  
-
-// Input fields can trigger a change event when new text is entered.
-filterDate.on("click", function() {
-    var newDate = d3.event.target.value;
-    console.log(newDate);
-  });
-   
-
-// Use D3 `.on` to attach a click handler for the date filter
-//button.on("click", function() {
-    //if
-    //    filterDate
-    // Filter Data
-  //  var filteredDate = parseInt(counter.text());
-  
-    // Upvotes should increment the counter
-  //  currentCount += 1;
-  
-    // Set the counter h1 text to the new count
-   // counter.text(currentCount);
- // });
-  
- // Create a custom function to return players who made the team
-//function datefilter(sighting) {
-    // return player.madeTeam == true;
-    // A more concise way to express a boolean conditional
-  //  return sighting.datefilter;
-  //}
-  
-  // Call the custom function with filter()
-  //var datefilter = data.filter(sighting);
-  
